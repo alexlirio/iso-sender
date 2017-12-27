@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE isopackager PUBLIC
+        "-//jPOS/jPOS Generic Packager DTD 1.0//EN"
+        "http://jpos.org/dtd/generic-packager-1.0.dtd">
+
+<isopackager>
+	<isofield id="0" length="4" name="MESSAGE TYPE INDICATOR" pad="true" class="org.jpos.iso.IFB_NUMERIC" />
+	<isofield id="1" length="8" name="BIT MAP" class="org.jpos.iso.IFB_BITMAP" />
+	<isofield id="2" length="99" name="?" class="org.jpos.iso.IFB_LLNUM" />
+	<isofield id="3" length="6" name="PROCESSING CODE" class="org.jpos.iso.IFB_NUMERIC" />
+	<isofield id="11" length="6" name="?" class="org.jpos.iso.IFB_NUMERIC" />
+	<isofield id="12" length="6" name="?" class="org.jpos.iso.IFB_NUMERIC" />
+	<isofield id="13" length="4" name="?" class="org.jpos.iso.IFB_NUMERIC" />
+	<isofield id="14" length="4" name="?" class="org.jpos.iso.IFB_NUMERIC" />
+	<isofield id="24" length="3" name="?" class="org.jpos.iso.IFB_NUMERIC" />
+	<isofield id="39" length="2" name="?" class="org.jpos.iso.IF_CHAR" />
+	<isofield id="41" length="8" name="?" class="org.jpos.iso.IF_CHAR" />
+	<isofield id="42" length="999" name="?" class="org.jpos.iso.IFB_LLLBINARY" />
+	<isofieldpackager id="56" length="999" name="ADDITIONAL TRANSACTION DATA" class="org.jpos.iso.IFB_LLLBINARY"
+		packager="org.jpos.iso.packager.GenericSubFieldPackager" emitBitmap="false">
+		<isofield id="1" length="2" name="PHONE PREFIX" pad="true" class="org.jpos.iso.IFB_NUMERIC" />
+		<isofield id="2" length="9" name="PHONE" pad="true" class="org.jpos.iso.IFB_NUMERIC" />
+		<isofield id="3" length="99" name="?" class="org.jpos.iso.IFB_LLBINARY" />
+	</isofieldpackager>
+	<isofield id="61" length="999" name="SERVER INFORMATIONS" class="org.jpos.iso.IFB_LLLCHAR" />
+</isopackager>
