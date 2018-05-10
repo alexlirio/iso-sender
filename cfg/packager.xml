@@ -5,22 +5,24 @@
 
 <isopackager>
 	<isofield id="0" length="4" name="MESSAGE TYPE INDICATOR" pad="true" class="org.jpos.iso.IFB_NUMERIC" />
-	<isofield id="1" length="8" name="BIT MAP" class="org.jpos.iso.IFB_BITMAP" />
-	<isofield id="2" length="99" name="?" class="org.jpos.iso.IFB_LLNUM" />
+	<isofield id="1" length="8" name="BITMAP" class="org.jpos.iso.IFB_BITMAP" />
+	<isofield id="2" length="19" name="PRIMARY ACCOUNT NUMBER (PAN)" class="org.jpos.iso.IFB_LLNUM" />
 	<isofield id="3" length="6" name="PROCESSING CODE" class="org.jpos.iso.IFB_NUMERIC" />
-	<isofield id="11" length="6" name="?" class="org.jpos.iso.IFB_NUMERIC" />
-	<isofield id="12" length="6" name="?" class="org.jpos.iso.IFB_NUMERIC" />
-	<isofield id="13" length="4" name="?" class="org.jpos.iso.IFB_NUMERIC" />
-	<isofield id="14" length="4" name="?" class="org.jpos.iso.IFB_NUMERIC" />
-	<isofield id="24" length="3" name="?" class="org.jpos.iso.IFB_NUMERIC" />
-	<isofield id="39" length="2" name="?" class="org.jpos.iso.IF_CHAR" />
-	<isofield id="41" length="8" name="?" class="org.jpos.iso.IF_CHAR" />
-	<isofield id="42" length="999" name="?" class="org.jpos.iso.IFB_LLLBINARY" />
-	<isofieldpackager id="56" length="999" name="ADDITIONAL TRANSACTION DATA" class="org.jpos.iso.IFB_LLLBINARY"
+	<isofield id="4" length="12" name="AMOUNT, TRANSACTION" class="org.jpos.iso.IFB_NUMERIC" />
+	<isofield id="11" length="6" name="SYSTEM TRACE AUDIT NUMBER (STAN)" class="org.jpos.iso.IFB_NUMERIC" />
+	<isofield id="12" length="6" name="LOCAL TRANSACTION TIME (HHMMSS)" class="org.jpos.iso.IFB_NUMERIC" />
+	<isofield id="13" length="4" name="LOCAL TRANSACTION DATE (MMDD)" class="org.jpos.iso.IFB_NUMERIC" />
+	<isofield id="14" length="4" name="EXPIRATION DATE" class="org.jpos.iso.IFB_NUMERIC" />
+	<isofield id="24" length="3" name="FUNCTION CODE (ISO 8583:1993), OR NETWORK INTERNATIONAL IDENTIFIER (NII)" class="org.jpos.iso.IFB_NUMERIC" />
+	<isofield id="38" length="6" name="AUTHORIZATION IDENTIFICATION RESPONSE" class="org.jpos.iso.IF_CHAR" />
+	<isofield id="39" length="2" name="RESPONSE CODE" class="org.jpos.iso.IF_CHAR" />
+	<isofield id="41" length="8" name="CARD ACCEPTOR TERMINAL IDENTIFICACION" class="org.jpos.iso.IF_CHAR" />
+	<isofield id="42" length="15" name="CARD ACCEPTOR IDENTIFICATION CODE" class="org.jpos.iso.IF_CHAR" />
+	<isofieldpackager id="61" length="999" name="RESERVED (PRIVATE)" class="org.jpos.iso.IFB_LLLBINARY"
 		packager="org.jpos.iso.packager.GenericSubFieldPackager" emitBitmap="false">
-		<isofield id="1" length="2" name="PHONE PREFIX" pad="true" class="org.jpos.iso.IFB_NUMERIC" />
-		<isofield id="2" length="9" name="PHONE" pad="true" class="org.jpos.iso.IFB_NUMERIC" />
+		<isofield id="1" length="2" name="PHONE NUMBER PREFIX" pad="true" class="org.jpos.iso.IFB_NUMERIC" />
+		<isofield id="2" length="9" name="PHONE NUMBER" pad="true" class="org.jpos.iso.IFB_NUMERIC" />
 		<isofield id="3" length="99" name="?" class="org.jpos.iso.IFB_LLBINARY" />
 	</isofieldpackager>
-	<isofield id="61" length="999" name="SERVER INFORMATIONS" class="org.jpos.iso.IFB_LLLCHAR" />
+	<isofield id="62" length="999" name="RESERVED (PRIVATE)" class="org.jpos.iso.IFB_LLLCHAR" />
 </isopackager>

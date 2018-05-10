@@ -3,16 +3,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.company</groupId>
 	<artifactId>iso-sender</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-
+	
 	<build>
 	
 		<finalName>${project.artifactId}</finalName>
-	
+		
 		<plugins>
 		
 			<plugin>
@@ -24,12 +24,13 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-		
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>3.0.2</version>
 				<configuration>
+					<finalName>${project.artifactId}</finalName>
 					<archive>
 						<manifestEntries>
 							<Class-Path>cfg/</Class-Path>
@@ -66,7 +67,7 @@
 		</plugins>
 		
 	</build>
-
+	
 	<dependencies>
 	
 		<dependency>
@@ -88,5 +89,5 @@
 		</dependency>
 		
 	</dependencies>
-
+	
 </project>
