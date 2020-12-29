@@ -9,10 +9,13 @@ import javax.xml.bind.DatatypeConverter;
 
 import org.apache.log4j.Logger;
 import org.jpos.iso.ISOBinaryField;
+import org.jpos.iso.ISOBinaryFieldPackager;
 import org.jpos.iso.ISOBitMap;
 import org.jpos.iso.ISOException;
 import org.jpos.iso.ISOField;
 import org.jpos.iso.ISOMsg;
+import org.jpos.iso.ISOUtil;
+import org.jpos.iso.packager.GenericPackager;
 import org.json.simple.JSONObject;
 
 
@@ -20,7 +23,7 @@ public class UtilConverter {
 	
 	private final static Logger log = Logger.getLogger(UtilConverter.class);
 	
-	public static ISOMsg getISO(JSONObject json) {
+	public static ISOMsg getISO(JSONObject json, GenericPackager packager) {
 		
 		ISOMsg isoMsg = new ISOMsg();
 		
@@ -28,11 +31,18 @@ public class UtilConverter {
 		while (iterator.hasNext()) {
 			String key = (String)iterator.next();
 			String value = json.get(key).toString();
-
-			if (Pattern.compile("^([\\d]{1,3})([\\.]{1}[\\d]{1,3})*$").matcher(key).matches()) {
-				//Key válida para ISO 
+			
+			if (key.equalsIgnoreCase("header")) {
+				isoMsg.setHeader(ISOUtil.hex2byte(value));
+			} else if (Pattern.compile("^([\\d]{1,3})([\\.]{1}[\\d]{1,3})*$").matcher(key).matches()) {
+				//Valid ISO Key 
 				try {
-					isoMsg.set(key, value);
+					if (packager.getFieldPackager(Integer.parseInt(key)) instanceof ISOBinaryFieldPackager) {
+						SpecialByteField specialByteField = new SpecialByteField(value);
+						isoMsg.set(key, specialByteField.getBytes());
+					} else {
+						isoMsg.set (key, value);
+					}
 				} catch (ISOException e) {
 					log.error(e.getClass().getSimpleName() + " in " + UtilConverter.class.getClass().getName() , e);
 					e.printStackTrace();

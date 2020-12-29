@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import org.jpos.iso.BaseChannel;
 import org.jpos.iso.ISOException;
 import org.jpos.iso.ISOMsg;
-import org.jpos.iso.ISOUtil;
 import org.jpos.iso.channel.ASCIIChannel;
 import org.jpos.iso.channel.NACChannel;
 import org.jpos.iso.packager.GenericPackager;
@@ -36,6 +35,7 @@ public class SenderISO {
 	public final static String HOST_ARG = "host";
 	public final static String PORT_ARG = "port";
 	public final static String CHANNEL = "channel";
+	public final static String CHANNEL_HEADER = "channel_header";
 	public final static String TIMEOUT_ARG = "timeout";
 	public final static String XML_ISO_PACKAGER_FILE_ARG = "xml_iso_packager_file";
 	public final static String JSON_REQUEST_ARG = "json_request";
@@ -44,6 +44,7 @@ public class SenderISO {
 	private String host;
 	private int port;
 	private String channel;
+	private String channelHeader;
 	private int timeout;
 	private String xmlIsoPackagerFile;
 	private List<String> jsonsRequest;
@@ -82,7 +83,6 @@ public class SenderISO {
 
 	private String send() {
 		String ret = new String();
-		String isoHeader = null;
 		ISOMsg isoMsgRequest = null;
 		ISOMsg isoMsgResponse = null;
 		JSONObject jsonMsgRequest = null;
@@ -107,18 +107,13 @@ public class SenderISO {
 				ch.setTimeout(timeout);
 				ch.connect();
 				
-				if (jsonMsgRequest.containsKey("header")) {
-					isoHeader = (String)jsonMsgRequest.get("header");
-					jsonMsgRequest.remove("header");
-				}
+				//Set Channel Header
+				if (channelHeader != null && !channelHeader.isEmpty()) {
+					ch.setHeader(channelHeader);
+				}				
 				
 				log.info(String.format("JSON Request = %s", jsonMsgRequest.toJSONString()));
-				isoMsgRequest = UtilConverter.getISO(jsonMsgRequest);
-				
-				if (isoHeader != null && !isoHeader.isEmpty()) {
-					ch.setHeader(isoHeader);
-					isoMsgRequest.setHeader(ISOUtil.str2bcd(isoHeader, true));
-				}
+				isoMsgRequest = UtilConverter.getISO(jsonMsgRequest, packager);
 				
 				ch.send(isoMsgRequest);
 				isoMsgResponse = ch.receive();
@@ -174,6 +169,7 @@ public class SenderISO {
 			host = argsMap.get(PREFIX_ARG + HOST_ARG) != null ? argsMap.get(PREFIX_ARG + HOST_ARG) : prop.getProperty(HOST_ARG);
 			port = Integer.parseInt(argsMap.get(PREFIX_ARG + PORT_ARG) != null ? argsMap.get(PREFIX_ARG + PORT_ARG) : prop.getProperty(PORT_ARG));
 			channel = argsMap.get(PREFIX_ARG + CHANNEL) != null ? argsMap.get(PREFIX_ARG + CHANNEL) : prop.getProperty(CHANNEL);
+			channelHeader = argsMap.get(PREFIX_ARG + CHANNEL_HEADER) != null ? argsMap.get(PREFIX_ARG + CHANNEL_HEADER) : prop.getProperty(CHANNEL_HEADER);
 			timeout = Integer.parseInt(argsMap.get(PREFIX_ARG + TIMEOUT_ARG) != null ? argsMap.get(PREFIX_ARG + TIMEOUT_ARG) : prop.getProperty(TIMEOUT_ARG));
 			xmlIsoPackagerFile = argsMap.get(PREFIX_ARG + XML_ISO_PACKAGER_FILE_ARG) != null ? argsMap.get(PREFIX_ARG + XML_ISO_PACKAGER_FILE_ARG) : prop.getProperty(XML_ISO_PACKAGER_FILE_ARG);
 			
@@ -220,6 +216,7 @@ public class SenderISO {
 		log.info(HOST_ARG + "=" + host);
 		log.info(PORT_ARG + "=" + port);
 		log.info(CHANNEL + "=" + channel);
+		log.info(CHANNEL_HEADER + "=" + channelHeader);
 		log.info(TIMEOUT_ARG + "=" + timeout);
 		log.info(XML_ISO_PACKAGER_FILE_ARG + "=" + xmlIsoPackagerFile);
 		
